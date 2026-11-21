@@ -2,6 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "compatibility_date": "2026-05-17",
   "name": "skland-daily-attendance",
+  "keep_vars": true,
   "compatibility_flags": ["nodejs_als"],
   "observability": {
     "enabled": true
