@@ -25,6 +25,7 @@ const server = spawn(pnpmCmd, ['dev'], {
   stdio: 'inherit',
   env: {
     ...process.env,
+    SKLAND_DISABLE_INTERNAL_SCHEDULE: '1',
     NITRO_PORT: String(PORT),
   },
 })
@@ -77,7 +78,8 @@ try {
     let response
     for (let i = 0; i < maxRetries; i++) {
       response = await fetch(TASK_URL)
-      if (response.status !== 404) break
+      if (response.status !== 404)
+        break
       core.info(`Tasks API 尚未就绪 (404)，重试 ${i + 1}/${maxRetries}...`)
       await new Promise(r => setTimeout(r, 2000))
     }

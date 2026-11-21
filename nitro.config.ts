@@ -1,4 +1,5 @@
 import { builtinModules } from 'node:module'
+import process from 'node:process'
 import { defineConfig } from 'nitro'
 import { esmExternalRequirePlugin } from 'rolldown/plugins'
 
@@ -10,6 +11,12 @@ export default defineConfig({
   scheduledTasks: {
     '30 */2 * * *': ['attendance'],
   },
+  modules: [
+    (nitro) => {
+      if (nitro.options.preset === 'cloudflare-module' || process.env.SKLAND_DISABLE_INTERNAL_SCHEDULE === '1')
+        nitro.options.scheduledTasks = {}
+    },
+  ],
   runtimeConfig: {
     tokens: '',
     notificationUrls: '',

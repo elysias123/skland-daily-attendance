@@ -10,8 +10,5 @@
     {
       "binding": "KV"
     }
-  ],
-  "triggers": {
-    "crons": ["30 */2 * * *"]
-  }
+  ]
 }

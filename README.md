@@ -19,7 +19,7 @@
 
 ### Cloudflare Workers 部署
 
-通过一键部署到 Cloudflare Workers，只需要[配置对应的环境变量](#配置说明)即可。
+一键部署后，[配置环境变量](#配置说明)，并在 Worker 的 **Settings → Trigger Events → Cron Triggers** 中设置签到时间。Cron 按 UTC 计算，例如 `30 */2 * * *` 表示每两小时的第 30 分钟触发。
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/AEtherside/skland-daily-attendance)
 
@@ -227,11 +227,7 @@ SKLAND_NOTIFICATION_URLS="Statocysts 格式通知 URL"
 
 项目支持使用持久化存储来记录每日签到状态。
 
-因为每次计划任务执行不一定签到成功，所以本服务在除了 GitHub Actions 的情况下使用时，会通过每 2 小时执行的计划任务保证当天的签到任务成功，所以需要持久化存储对应日期的签到状态避免成功后重复签到。
-
-> [!WARNING]
-> 因为项目默认使用 2 小时的计划任务执行签到任务，所以在使用中不需要那么高的频率来执行签到任务，需要在 `nitro.config.ts` 中手动调整计划任务的执行频率。
-> 如果是 Cloudflare Workers 环境，同样需要调整 Worker 的 cron 定时器。
+如果每天触发多次，持久化存储会让后续任务跳过当天已签到成功的账号。
 
 项目支持多种 KV 存储方式，根据不同的部署环境选择合适的存储方案：
 
