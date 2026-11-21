@@ -45,6 +45,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Wait before scheduled attendance
+        if: github.event_name == 'schedule'
+        run: >-
+          node --input-type=module -e 'import { waitForScheduledAttendance } from "./utils/schedule.ts";
+          await waitForScheduledAttendance(process.env.SKLAND_SCHEDULE_JITTER_SECONDS)'
+        env:
+          SKLAND_SCHEDULE_JITTER_SECONDS: ${{ vars.SKLAND_SCHEDULE_JITTER_SECONDS }}
+
       - name: Run daily attendance
         run: pnpm action
         env:
